@@ -1,11 +1,11 @@
 import { TopNavbar } from '@/components/TopNavbar';
 import { View, Text, StyleSheet } from 'react-native';
 
-export default function HomeScreen() {
+export default function AboutScreen() {
   return (
     <View style={styles.container}>
-      <TopNavbar />
-      <Text style={styles.title}>Home Screen</Text>
+        <TopNavbar />
+      <Text style={styles.title}>About Screen</Text>
       <Text style={styles.subtitle}>Welcome to the app 👋</Text>
     </View>
   );
