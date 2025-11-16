@@ -1,0 +1,51 @@
+name: Expo CI
+
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+    branches: [ "**" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm install
+
+      # - name: Install Expo CLI
+      #   run: npm install -g expo-cli
+
+      # - name: Install EAS CLI
+      #   run: npm install -g eas-cli
+
+      # - name: Login to Expo
+      #   run: eas login --token ${{ secrets.EXPO_TOKEN }}
+
+      # - name: Create production build (Android .apk / .aab)
+      #   run: eas build --platform android --profile production --non-interactive
+
+      # - name: Create iOS build (requires Apple credentials)
+      #   run: eas build --platform ios --profile production --non-interactive
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: expo-build
+          path: |
+            dist/
+            build/
+

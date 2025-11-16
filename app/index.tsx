@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      <TopNavbar />
+    <TopNavbar />
       <Text style={styles.title}>Home Screen</Text>
       <Text style={styles.subtitle}>Welcome to the app 👋</Text>
     </View>
@@ -13,7 +13,6 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#f7f7f7',
