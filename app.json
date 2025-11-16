@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "naviation_app",
-    "slug": "naviation_app",
+    "name": "navigation_app",
+    "slug": "navigation_app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "naviationapp",
+    "scheme": "navigationapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
