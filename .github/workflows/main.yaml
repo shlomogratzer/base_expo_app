@@ -27,7 +27,7 @@ jobs:
         run: npm install
       
       - name: Run Scripts
-        run: npm run lint && npm run prettier && npm run spell
+        run: npm run lint && npm run prettier:check && npm run spell
       # - name: Install Expo CLI
       #   run: npm install -g expo-cli
 
