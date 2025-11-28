@@ -1,30 +1,40 @@
-import { TopNavbar } from '@/components/TopNavbar';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { Link } from "expo-router";
 
-export default function HomeScreen() {
+export default function ChatListScreen() {
+  const chats = [
+    { id: "1", name: "John Doe", last: "Hey, what's up?" },
+    { id: "2", name: "Alice", last: "Don't forget tomorrow!" },
+  ];
+
   return (
     <View style={styles.container}>
-    <TopNavbar />
-      <Text style={styles.title}>Home Screen</Text>
-      <Text style={styles.subtitle}>Welcome to the app 👋</Text>
+      {chats.map((chat) => (
+        <Link
+          key={chat.id}
+          href={{
+            pathname: `/chat/${chat.id}`,
+            params: { name: chat.name },
+          }}
+          asChild
+        >
+          <TouchableOpacity style={styles.chatBox}>
+            <Text style={styles.name}>{chat.name}</Text>
+            <Text style={styles.last}>{chat.last}</Text>
+          </TouchableOpacity>
+        </Link>
+      ))}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#f7f7f7',
-    padding: 20,
+  container: { flex: 1, padding: 12, backgroundColor: "#fff" },
+  chatBox: {
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderColor: "#ddd",
   },
-  title: {
-    fontSize: 28,
-    fontWeight: '600',
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#666',
-  },
+  name: { fontSize: 18, fontWeight: "600" },
+  last: { color: "#666", marginTop: 4 },
 });
