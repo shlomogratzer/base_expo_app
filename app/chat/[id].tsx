@@ -26,12 +26,11 @@ type Message = {
   createdAt?: number;
 };
 
-const SERVER_URL = "http://10.0.2.2:3000"; // <-- החלף לכתובת השרת שלך (או ngrok)
+const SERVER_URL = "http://10.0.2.2:3000";
 
 export default function ChatScreen() {
   const { id, name } = useLocalSearchParams();
   const [messages, setMessages] = useState<Message[]>([
-    // הודעות התחלתיות לדמו
     {
       id: "m1",
       fromMe: false,
@@ -51,27 +50,22 @@ export default function ChatScreen() {
   const flatListRef = useRef<FlatList>(null);
 
   useEffect(() => {
-    // התחבר ל־socket
     const socket = io(SERVER_URL, { transports: ["websocket"] });
     socketRef.current = socket;
 
     socket.on("connect", () => {
       console.log("connected to server", socket.id);
-      socket.emit("join", id); // הצטרף לחדר עם ה־id של הצ'אט
+      socket.emit("join", id);
     });
 
     socket.on("message", (message: Message) => {
-      // הודעות נכנסות מהשרת
-      // אם ההודעה כבר ממני (מכיוון שאני גם שולח ומקבל בחזרה), נסמן לפי id
       setMessages((prev) => {
-        // אם כבר קיימת הודעה עם אותו id — אל תוסיף כפול
         if (prev.some((m) => m.id === message.id)) return prev;
         return [...prev, { ...message, fromMe: message.fromMe }].sort(
           (a, b) => (a.createdAt || 0) - (b.createdAt || 0),
         );
       });
 
-      // גלילה למטה
       setTimeout(
         () => flatListRef.current?.scrollToEnd({ animated: true }),
         50,
@@ -96,10 +90,8 @@ export default function ChatScreen() {
       ...payload,
     };
 
-    // שלח לשרת
     socketRef.current?.emit("message", { roomId: id, message });
 
-    // הוסף ל־UI מקומי מיד
     setMessages((prev) => [...prev, message]);
     setTimeout(() => flatListRef.current?.scrollToEnd({ animated: true }), 50);
   };

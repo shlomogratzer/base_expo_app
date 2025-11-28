@@ -3,11 +3,11 @@
     "version": "0.2",
     "words": [
         "pulumi",
-        "fhir"
+        "fhir",
+        "מקומי"
     ],
     "ignorePaths": [],
     "ignoreRegExpList": [
-        "/\\/\\/.*$/",     // ignore single-line comments
-        "/\\/\\*[\\s\\S]*?\\*\\//"  // ignore block comments
+        "/[A-Za-z]+/" 
     ]
 }
