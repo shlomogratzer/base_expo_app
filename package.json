@@ -9,10 +9,10 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "lint:fix": "eslint --ext .js,.jsx,.ts,.tsx src --color --fix",
-    "lint:check": "eslint --ext .js,.jsx,.ts,.tsx src --color",
-    "prettier": "prettier --write \"src/**/*.{ts,tsx}\"",
-    "prettier:check": "prettier --check \"src/**/*.{ts,tsx}\"",
+    "lint:fix": "eslint --ext .js,.jsx,.ts,.tsx app --color --fix",
+    "lint:check": "eslint --ext .js,.jsx,.ts,.tsx app --color",
+    "prettier": "prettier --write \"app/**/*.{ts,tsx}\"",
+    "prettier:check": "prettier --check \"app/**/*.{ts,tsx}\"",
     "spell": "cspell **/*.{ts,tsx,md}"
   },
   "dependencies": {

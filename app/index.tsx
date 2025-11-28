@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Link } from "expo-router";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function ChatListScreen() {
   const chats = [
@@ -13,7 +13,7 @@ export default function ChatListScreen() {
         <Link
           key={chat.id}
           href={{
-            pathname: `/chat/${chat.id}`,
+            pathname: `./chat/${chat.id}`,
             params: { name: chat.name },
           }}
           asChild

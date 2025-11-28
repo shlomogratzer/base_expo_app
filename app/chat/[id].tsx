@@ -1,20 +1,20 @@
 // app/chat/[id].tsx
-import React, { useEffect, useRef, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  TextInput,
-  FlatList,
-  KeyboardAvoidingView,
-  Platform,
-  Alert,
-} from "react-native";
-import { useLocalSearchParams, Stack } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
+import { Stack, useLocalSearchParams } from "expo-router";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  Alert,
+  FlatList,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { io } from "socket.io-client";
 
 type Message = {
@@ -32,8 +32,19 @@ export default function ChatScreen() {
   const { id, name } = useLocalSearchParams();
   const [messages, setMessages] = useState<Message[]>([
     // הודעות התחלתיות לדמו
-    { id: "m1", fromMe: false, text: "Hey, how are you?", senderName: name || "John" , createdAt: Date.now() - 60000 },
-    { id: "m2", fromMe: true, text: "I'm good, thanks!", createdAt: Date.now() - 30000 },
+    {
+      id: "m1",
+      fromMe: false,
+      text: "Hey, how are you?",
+      senderName: name || "John",
+      createdAt: Date.now() - 60000,
+    },
+    {
+      id: "m2",
+      fromMe: true,
+      text: "I'm good, thanks!",
+      createdAt: Date.now() - 30000,
+    },
   ]);
   const [input, setInput] = useState("");
   const socketRef = useRef<any>(null);
@@ -55,11 +66,16 @@ export default function ChatScreen() {
       setMessages((prev) => {
         // אם כבר קיימת הודעה עם אותו id — אל תוסיף כפול
         if (prev.some((m) => m.id === message.id)) return prev;
-        return [...prev, { ...message, fromMe: message.fromMe }].sort((a,b)=> (a.createdAt||0)-(b.createdAt||0));
+        return [...prev, { ...message, fromMe: message.fromMe }].sort(
+          (a, b) => (a.createdAt || 0) - (b.createdAt || 0),
+        );
       });
 
       // גלילה למטה
-      setTimeout(() => flatListRef.current?.scrollToEnd({ animated: true }), 50);
+      setTimeout(
+        () => flatListRef.current?.scrollToEnd({ animated: true }),
+        50,
+      );
     });
 
     socket.on("disconnect", () => {
@@ -96,9 +112,13 @@ export default function ChatScreen() {
 
   const pickImage = async () => {
     try {
-      const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      const permission =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (!permission.granted) {
-        Alert.alert("Permission required", "We need permission to access your photos.");
+        Alert.alert(
+          "Permission required",
+          "We need permission to access your photos.",
+        );
         return;
       }
 
@@ -166,10 +186,14 @@ export default function ChatScreen() {
         <View style={styles.container}>
           <FlatList
             ref={flatListRef}
-            data={messages.sort((a,b)=> (a.createdAt||0)-(b.createdAt||0))}
+            data={messages.sort(
+              (a, b) => (a.createdAt || 0) - (b.createdAt || 0),
+            )}
             keyExtractor={(m) => m.id}
             renderItem={renderItem}
-            onContentSizeChange={() => flatListRef.current?.scrollToEnd({ animated: true })}
+            onContentSizeChange={() =>
+              flatListRef.current?.scrollToEnd({ animated: true })
+            }
             showsVerticalScrollIndicator={false}
           />
 
