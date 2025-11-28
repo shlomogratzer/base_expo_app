@@ -6,4 +6,8 @@
         "fhir"
     ],
     "ignorePaths": [],
+    "ignoreRegExpList": [
+        "/\\/\\/.*$/",     // ignore single-line comments
+        "/\\/\\*[\\s\\S]*?\\*\\//"  // ignore block comments
+    ]
 }
