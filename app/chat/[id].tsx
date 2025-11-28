@@ -121,7 +121,6 @@ export default function ChatScreen() {
       });
 
       if (!result.cancelled) {
-        // result.uri ישתמש כ־imageUri
         sendMessage({ imageUri: result.uri });
       }
     } catch (err) {
