@@ -15,8 +15,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { io } from "socket.io-client";
-
+import { HttpTransportType, HubConnectionBuilder, LogLevel } from "@microsoft/signalr"
 type Message = {
   id: string;
   fromMe?: boolean;
@@ -26,7 +25,16 @@ type Message = {
   createdAt?: number;
 };
 
-const SERVER_URL = "http://10.0.2.2:3000";
+const SERVER_URL = "http://10.0.2.2:5123/chat";
+const socket = new HubConnectionBuilder()
+.withUrl(SERVER_URL, {
+  transport: HttpTransportType.WebSockets,
+  skipNegotiation: true,
+  withCredentials: false
+})
+.withAutomaticReconnect()
+.configureLogging(LogLevel.Information)
+.build();
 
 export default function ChatScreen() {
   const { id, name } = useLocalSearchParams();
@@ -50,34 +58,36 @@ export default function ChatScreen() {
   const flatListRef = useRef<FlatList>(null);
 
   useEffect(() => {
-    const socket = io(SERVER_URL, { transports: ["websocket"] });
     socketRef.current = socket;
 
-    socket.on("connect", () => {
-      console.log("connected to server", socket.id);
-      socket.emit("join", id);
-    });
+    async function startConnection(){
+      try {
+        await socket.start();
+        console.log("socket started");
+
+        await socket.invoke("JoinRoom", id);
+      } catch (err) {
+        console.warn(err);
+        setTimeout(startConnection, 2000);
+      }
+    }
+
+    startConnection();
 
     socket.on("message", (message: Message) => {
-      setMessages((prev) => {
-        if (prev.some((m) => m.id === message.id)) return prev;
-        return [...prev, { ...message, fromMe: message.fromMe }].sort(
-          (a, b) => (a.createdAt || 0) - (b.createdAt || 0),
-        );
-      });
+      setMessages((prev) => [...prev, message].sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0)));
 
-      setTimeout(
-        () => flatListRef.current?.scrollToEnd({ animated: true }),
-        50,
-      );
+      setTimeout(() => {
+        flatListRef.current?.scrollToEnd({ animated: true });
+      }, 100);
     });
-
-    socket.on("disconnect", () => {
-      console.log("socket disconnected");
-    });
+    socket.onclose(() => {
+      console.log("socket closed reconnecting...");
+      startConnection()
+    })
 
     return () => {
-      socket.disconnect();
+      socket.stop();
     };
   }, [id]);
 
@@ -90,7 +100,7 @@ export default function ChatScreen() {
       ...payload,
     };
 
-    socketRef.current?.emit("message", { roomId: id, message });
+    await socketRef.current?.invoke("SendMessage",  id, message );
 
     setMessages((prev) => [...prev, message]);
     setTimeout(() => flatListRef.current?.scrollToEnd({ animated: true }), 50);
