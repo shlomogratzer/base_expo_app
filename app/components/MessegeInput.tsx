@@ -40,8 +40,8 @@ export function MessegeInput({ sendMessage }: MessegeInputProps) {
         base64: false,
       });
 
-      if (!result.cancelled) {
-        sendMessage({ imageUri: result.uri });
+      if (!result.canceled) {
+        sendMessage({ imageUri: result.assets[0].uri });
       }
     } catch (err) {
       console.warn(err);
