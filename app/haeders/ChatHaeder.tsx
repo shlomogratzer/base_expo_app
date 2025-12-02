@@ -1,3 +1,4 @@
+import { Ionicons } from "@expo/vector-icons";
 import { Stack } from "expo-router";
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
@@ -19,6 +20,15 @@ export function ChatHaeder({ id, name }: ChatHaederProps) {
             <View>
               <Text style={styles.headerName}>{name || `Chat ${id}`}</Text>
               <Text style={styles.headerStatus}>Online</Text>
+            </View>
+            <View style={styles.headerRow}>
+              <Ionicons name="videocam-outline" size={32} color="black" />
+              <Ionicons name="call-outline" size={32} color="black" />
+              <Ionicons
+                name="ellipsis-vertical-outline"
+                size={32}
+                color="black"
+              />
             </View>
           </View>
         ),
