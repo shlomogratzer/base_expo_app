@@ -1,5 +1,6 @@
 import { Link } from "expo-router";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { HomeHaeder } from "./haeders/HomeHaeder";
 
 export default function ChatListScreen() {
   const chats = [
@@ -8,23 +9,26 @@ export default function ChatListScreen() {
   ];
 
   return (
-    <View style={styles.container}>
-      {chats.map((chat) => (
-        <Link
-          key={chat.id}
-          href={{
-            pathname: `./chat/${chat.id}`,
-            params: { name: chat.name },
-          }}
-          asChild
-        >
-          <TouchableOpacity style={styles.chatBox}>
-            <Text style={styles.name}>{chat.name}</Text>
-            <Text style={styles.last}>{chat.last}</Text>
-          </TouchableOpacity>
-        </Link>
-      ))}
-    </View>
+    <>
+      <HomeHaeder />
+      <View style={styles.container}>
+        {chats.map((chat) => (
+          <Link
+            key={chat.id}
+            href={{
+              pathname: `./chat/${chat.id}`,
+              params: { name: chat.name },
+            }}
+            asChild
+          >
+            <TouchableOpacity style={styles.chatBox}>
+              <Text style={styles.name}>{chat.name}</Text>
+              <Text style={styles.last}>{chat.last}</Text>
+            </TouchableOpacity>
+          </Link>
+        ))}
+      </View>
+    </>
   );
 }
 
