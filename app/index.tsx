@@ -1,13 +1,14 @@
 import { Link } from "expo-router";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { HomeHaeder } from "./haeders/HomeHaeder";
+import { useGetUserId } from "./hooks/useGetUserId";
 
 export default function ChatListScreen() {
+  const { user } = useGetUserId();
   const chats = [
     { id: "1", name: "John Doe", last: "Hey, what's up?" },
     { id: "2", name: "Alice", last: "Don't forget tomorrow!" },
   ];
-
   return (
     <>
       <HomeHaeder />
@@ -17,7 +18,7 @@ export default function ChatListScreen() {
             key={chat.id}
             href={{
               pathname: `./chat/${chat.id}`,
-              params: { name: chat.name },
+              params: { name: chat.name || user },
             }}
             asChild
           >
@@ -27,6 +28,9 @@ export default function ChatListScreen() {
             </TouchableOpacity>
           </Link>
         ))}
+        <View style={styles.chatBox}>
+          <Link href="./Login">Login</Link>
+        </View>
       </View>
     </>
   );

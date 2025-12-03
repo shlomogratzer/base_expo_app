@@ -1,18 +1,22 @@
 import * as SecureStore from "expo-secure-store";
+import { useState } from "react";
 
 export function useGetUserId() {
+  const [user, setUser] = useState<string | null>(null);
   async function getUser() {
-    const userId = await SecureStore.getItemAsync("user-id");
+    const userId = await SecureStore.getItemAsync("user");
     if (userId) {
-      return userId;
+      setUser(userId);
     }
-    return null;
   }
-  async function setUser(userId: string) {
-    await SecureStore.setItemAsync("user-id", userId);
+
+  async function saveUser(userId: string) {
+    await SecureStore.setItemAsync("user", userId);
+    setUser(userId);
   }
   async function removeUser() {
-    await SecureStore.deleteItemAsync("user-id");
+    await SecureStore.deleteItemAsync("user");
+    setUser(null);
   }
-  return { getUser, setUser, removeUser };
+  return { getUser, saveUser, removeUser, user };
 }

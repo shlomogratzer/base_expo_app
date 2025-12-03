@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Message } from "../types/types";
+import Message from "../types/types";
 
 interface MessegeInputProps {
   sendMessage: (messege: Partial<Message>) => Promise<void>;

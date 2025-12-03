@@ -8,7 +8,7 @@ export function HomeHaeder() {
     <Stack.Screen
       options={{
         headerTitle: () => (
-          <View style={styles.mane}>
+          <View style={styles.main}>
             <Ionicons
               name="ellipsis-vertical-outline"
               size={32}
@@ -23,7 +23,7 @@ export function HomeHaeder() {
 }
 
 const styles = StyleSheet.create({
-  mane: {
+  main: {
     flexDirection: "row",
   },
 });
